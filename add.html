@@ -9,31 +9,50 @@
 </head>
 <body>
     <div class="container m-5">
-        <h2 class="fw-bold">Add Player Page</h2><br>
-        <form id="addPlayer">
-            <div class="mb-3">
+        <h1 class="fw-bold text-primary">Add Player Page</h1><br>
+        <form id="addPlayer" class="was-validated">
+            <div class="mb-3 mt-2">
                 <label for="playerNickName" class="form-label">닉네임</label>
-                <input type="text" class="form-control" id="playerNickName" placeholder="닉네임을 입력하세요" required>
+                <input type="text" class="form-control" id="playerNickName" name="playerNickName" placeholder="닉네임을 입력하세요" required>
+                <div class="valid-feedback">Valid.</div>
+                <div class="invalid-feedback">Please fill out this field.</div>
             </div>
             <div class="mb-3">
                 <label for="playerName" class="form-label">이름</label>
                 <input type="text" class="form-control" id="playerName" placeholder="이름을 입력하세요" required>
+                <div class="valid-feedback">Valid.</div>
+                <div class="invalid-feedback">Please fill out this field.</div>
             </div>
             <div class="mb-3">
                 <label for="playerTeam" class="form-label">소속 팀</label>
                 <input type="text" class="form-control" id="playerTeam" placeholder="소속 팀을 입력하세요" required>
+                <div class="valid-feedback">Valid.</div>
+                <div class="invalid-feedback">Please fill out this field.</div>
             </div>
             <div class="mb-3">
                 <label for="playerPosition" class="form-label">포지션</label>
-                <input type="text" class="form-control" id="playerPosition" placeholder="포지션을 입력하세요" required>
+                <input type="text" list="position" class="form-control" id="playerPosition" placeholder="포지션을 입력하세요" required>
+                <datalist id="position">
+                    <option value="Top"></option>
+                    <option value="Jug"></option>
+                    <option value="Mid"></option>
+                    <option value="Bot"></option>
+                    <option value="Sup"></option>
+                </datalist>
+                <div class="valid-feedback">Valid.</div>
+                <div class="invalid-feedback">Please fill out this field.</div>
             </div>
             <div class="mb-3">
                 <label for="playerNation" class="form-label">국적</label>
                 <input type="text" class="form-control" id="playerNation" placeholder="국적을 입력하세요" required>
+                <div class="valid-feedback">Valid.</div>
+                <div class="invalid-feedback">Please fill out this field.</div>
             </div>
             <div class="mb-3">
                 <label for="playerChampion" class="form-label">선호 챔피언</label>
                 <input type="text" class="form-control" id="playerChampion" placeholder="선호 챔피언을 입력하세요" required>
+                <div class="valid-feedback">Valid.</div>
+                <div class="invalid-feedback">Please fill out this field.</div>
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
