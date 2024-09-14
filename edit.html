@@ -1,11 +1,127 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Edit Player</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
+
 <body>
-    
+    <div class="container mt-5">
+        <h1 class="fw-bold text-primary">Edit Player</h1>
+
+        <form id="editForm" class="mt-4">
+            <div class="mb-3">
+                <label for="nickname" class="form-label">Nickname</label>
+                <input type="text" id="nickname" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="name" class="form-label">Name</label>
+                <input type="text" id="name" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="team" class="form-label">Team</label>
+                <input type="text" id="team" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="position" class="form-label">Position</label>
+                <input type="text" id="position" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="nation" class="form-label">Nation</label>
+                <input type="text" id="nation" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="champion" class="form-label">Champion</label>
+                <input type="text" id="champion" class="form-control" required>
+            </div>
+            <div class="mb-5">
+                <button type="submit" class="btn btn-primary mt-2" id="saveBtn">Save</button>
+                <button type="button" class="btn btn-secondary mt-2" id="goBackBtn">Go Back to Main Page</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        function getQueryParam(param) {
+            let urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        // 로컬 스토리지에서 기존 데이터를 가져와서 폼에 채우기
+        function loadPlayerInfo() {
+            let nickname = getQueryParam("nickname");
+            if (!nickname) {
+                alert("No player selected.");
+                window.location.href = "index.html";
+                return;
+            }
+
+            // 플레이어 찾기
+            let players = localStorage.getItem("players").split("|");
+            let playerData = players.find(player => player.split(",")[0].toLowerCase() === nickname.toLowerCase());
+
+            // 플레이어가 없다면 alert창 띄우고 index.html로 돌아가기
+            if (!playerData) {
+                alert("Player not found.");
+                window.location.href = "index.html";
+                return;
+            }
+
+            // 플레이어의 세부정보들을 배열에 저장시키기
+            let player = playerData.split(",");
+            document.getElementById("nickname").value = player[0];
+            document.getElementById("name").value = player[1];
+            document.getElementById("team").value = player[2];
+            document.getElementById("position").value = player[3];
+            document.getElementById("nation").value = player[4];
+            document.getElementById("champion").value = player[5];
+        }
+
+        // 플레이어 정보 Update 하기
+        function updatePlayerInfo(event) {
+            event.preventDefault(); // 폼의 기본 제출 동작 방지하기
+
+            // 진짜로 수정 할것인지 confirm창을 출력하면서 다시 한 번 유저에게 물어보고 Update 하기
+            if (confirm("게시물을 수정할까요?")) {
+                let nickname = document.getElementById("nickname").value.trim();
+                let name = document.getElementById("name").value.trim();
+                let team = document.getElementById("team").value.trim();
+                let position = document.getElementById("position").value.trim();
+                let nation = document.getElementById("nation").value.trim();
+                let champion = document.getElementById("champion").value.trim();
+
+                let players = localStorage.getItem("players").split("|");
+                let updatedPlayers = players.map(function (playerData) {
+                    let player = playerData.split(",");
+                    if (player[0].toLowerCase() === nickname.toLowerCase()) {
+                        return [nickname, name, team, position, nation, champion].join(",");
+                    }
+                    return playerData;
+                });
+
+                // Update 완료하고 alert창으로 알려주고 index.html창으로 돌아가기
+                localStorage.setItem("players", updatedPlayers.join("|"));
+                alert("플레이어 정보가 성공적으로 수정되었습니다.");
+                window.location.href = "index.html";
+            }
+        }
+
+        // 페이지가 로드되면 플레이어 정보 로드 하게끔 하기
+        document.addEventListener("DOMContentLoaded", loadPlayerInfo);
+
+        // Save 버튼 클릭 시 Update 하기
+        document.getElementById("editForm").addEventListener("submit", updatePlayerInfo);
+
+        // Go Back to Main Page 버튼 클릭 시 이전 페이지로 이동하기
+        document.getElementById("goBackBtn").addEventListener("click", function(event) {
+            event.preventDefault(); // 기본동작 방지
+            window.history.back(); // 돌아가기
+        });
+    </script>
 </body>
+
 </html>
