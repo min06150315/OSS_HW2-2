@@ -1,7 +1,7 @@
 <h1>오픈소스 스튜디오 Assignment#2-2: Frontend CRUD Service(RWD)</h1>
 <h2>22300265 민경빈</h2><br>
 
-<h3>Link -> https://min06150315-oss-assignment2-2.netlify.app/</h3><br>
+<h3>Link -> https://min06150315-oss-assignment2-2.netlify.app/</h3>
 <hr>
 <h3>
     LoL 플레이어 관리 - 닉네임, 이름, 소속팀, 포지션, 국적, 선호챔피언<br>
