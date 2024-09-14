@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 
 <head>
     <meta charset="UTF-8">
@@ -22,7 +22,7 @@
                 </div>
                 <div class="col">
                     <button type="button" class="btn btn-primary" id="addBtn">Add</button>
-                    <button type="button" class="btn btn-info" id="resetBtn" >Reset</button>
+                    <button type="button" class="btn btn-info" id="resetBtn">Reset</button>
                     <button type="button" class="btn btn-dark" id="editBtn">Edit</button>
                     <button type="button" class="btn btn-danger" id="deleteBtn">Delete</button>
                 </div>
@@ -40,23 +40,26 @@
                         <th>Champion</th>
                     </tr>
                 </thead>
-                <tbody id="playerTableBody">
-                    
-                </tbody>
+                <tbody id="playerTableBody"></tbody>
             </table>
         </div>
     </div>
 
     <script>
-       // 초기 테이블 설정하기
-       function initializePlayers() {
+        // 초기 테이블 설정하기
+        function initializePlayers() {
             let players = localStorage.getItem("players");
 
             if (!players) {
-                // 테이블 기본 값
+                // 테이블 디폴트 값 (예시)
                 players = [
-                    //"Faker,이상혁,T1,Mid,Korea,르블랑"
+                    "Faker,이상혁,T1,Mid,Korea,라이즈",
+                    "Ruler,박재혁,JDG,Bot,Korea,제리",
+                    "Viper,박도현,Hanhwa,Bot,Korea,루시안",
+                    "Chovy,정지훈,GenG,Mid,Korea,요네",
+                    "Showmaker,허수,DplusKia,Mid,Korea,신드라"
                 ].join("|");
+                // 저장소에 저장
                 localStorage.setItem("players", players);
             }
             return players;
@@ -64,51 +67,80 @@
 
         // Local Storage에서 플레이어 불러와서 테이블에 표시하기
         function loadPlayers() {
-            let playerTableBody = document.getElementById("playerTableBody");
-            playerTableBody.innerHTML = "";  // 기존 데이터 제거
+            let playerTable = document.getElementById("playerTableBody");
+            playerTable.innerHTML = "";  // 기존 데이터 제거
 
+            // 플레이어 리스트를 테이블 형식으로 가공해서 출력하기
             let players = initializePlayers().split("|");
-            players.forEach(function(playerData) {
+            players.forEach(function (playerData) {
                 let player = playerData.split(",");
                 let tr = document.createElement("tr");
 
-                player.forEach(function(field) {
+                player.forEach(function (field, index) {
                     let td = document.createElement("td");
-                    td.textContent = field;
+
+                    if (index === 0) {  // 각 플레이어의 닉네임에 하이퍼링크(view.html)를 걸어서 세부정보 확인 가능하게 하기
+                        let a = document.createElement("a");
+                        a.href = `view.html?nickname=${encodeURIComponent(field)}`;
+                        a.textContent = field;
+                        td.appendChild(a);
+                    } else {
+                        td.textContent = field;
+                    }
                     tr.appendChild(td);
                 });
 
-                playerTableBody.appendChild(tr);
+                playerTable.appendChild(tr);
             });
+        }
+
+        // 플레이어 삭제하는 함수
+        function deletePlayer(nickname) {
+            let players = localStorage.getItem("players").split("|");
+            let updatedPlayers = players.filter(function (playerData) {
+                return playerData.split(",")[0] !== nickname;
+            });
+            localStorage.setItem("players", updatedPlayers.join("|"));
+            loadPlayers();  // 테이블 새로고침
         }
 
 
         // 페이지 로딩 될 때 실행하기
         document.addEventListener("DOMContentLoaded", loadPlayers);
-    
+
         // add.html 페이지로 이동하여 form 입력 받기
-        document.getElementById("addBtn").addEventListener("click", function() {
+        document.getElementById("addBtn").addEventListener("click", function () {
             window.location.href = "add.html";
         });
 
-        // reset 버튼 누르기
-        document.getElementById("resetBtn").addEventListener("click", function() {
+        // 초기화 버튼 (기존 디폴트 상태로 돌아가기)
+        document.getElementById("resetBtn").addEventListener("click", function () {
             localStorage.removeItem("players");
             loadPlayers();
         })
 
         // 닉네임 입력 받아서 해당하는 edit.html 페이지로 이동하여 리스트 수정하기
-        document.getElementById("editBtn").addEventListener("click", function() {
+        document.getElementById("editBtn").addEventListener("click", function () {
+            // 닉네임 입력 받기
             let nickname = prompt("수정할 플레이어의 닉네임을 입력하세요: ");
-
-
-            window.location.href = "edit.html";
+            // 입력 받은 닉네임 edit.html로 보내서 해당하는 플레이어의 정보 수정하기 (+대소문자 구분X)
+            if (nickname) {
+                window.location.href = `edit.html?nickname=${encodeURIComponent(nickname.toLowerCase())}`;
+            }
         });
 
-        document.getElementById("deleteBtn").addEventListener("click", function() {
+        // 닉네임 입력 받아서 해당하는 플레이어 삭제 하기
+        document.getElementById("deleteBtn").addEventListener("click", function () {
+            // 닉네임 입력 받기
             let nickname = prompt("삭제할 플레이어의 닉네임을 입력하세요: ");
-
-        })
+            if (nickname) {
+                // 삭제 여부를 확인하는 confirm 창 (진짜로 삭제할 것인지 다시 한 번 물어보자)
+                if (confirm("게시물을 삭제할까요?")) {
+                    deletePlayer(nickname);
+                }
+            }
+        });
     </script>
 </body>
+
 </html>
