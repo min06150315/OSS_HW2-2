@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Player</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="fw-bold text-primary">Player Details</h1>
+        <div id="playerInfo" class="mt-4"></div>
+        <button class="btn btn-secondary mt-3" onclick="window.history.back()">Go Back to Main Page</button>
+    </div>
+
+    <script>
+        function getQueryParam(param) {
+            let urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        // 클릭한 닉네임에 해당하는 플레이어 정보를 가져와서 표시하기
+        function loadPlayerInfo() {
+            let nickname = getQueryParam("nickname");
+
+            // 예외처리
+            if (!nickname) {
+                alert("No player selected.");
+                window.location.href = "index.html";
+                return;
+            }
+
+            // 플레이어 찾기
+            let players = localStorage.getItem("players").split("|");
+            let playerData = players.find(player => player.split(",")[0] === nickname);
+
+            // 예외처리
+            if (!playerData) {
+                alert("Player not found.");
+                window.location.href = "index.html";
+                return;
+            }
+
+            // 플레이어 정보 가져오서 저장시키기
+            let player = playerData.split(",");
+            let playerInfoDiv = document.getElementById("playerInfo");
+
+            // 가져온 플레이어 정보 출력
+            let infoHtml = `
+                <p><strong>닉네임:</strong> ${player[0]}</p>
+                <p><strong>이름:</strong> ${player[1]}</p>
+                <p><strong>소속 팀:</strong> ${player[2]}</p>
+                <p><strong>포지션:</strong> ${player[3]}</p>
+                <p><strong>국적:</strong> ${player[4]}</p>
+                <p><strong>선호 챔피언:</strong> ${player[5]}</p>
+            `;
+
+            playerInfoDiv.innerHTML = infoHtml;
+        }
+
+        // 페이지가 로드되면 플레이어 정보 로드시키기
+        document.addEventListener("DOMContentLoaded", loadPlayerInfo);
+    </script>
+</body>
+</html>
