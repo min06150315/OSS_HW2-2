@@ -1,0 +1,42 @@
+<!-- json-server --watch data.json --port 3001 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button id="btnStu">학생 데이터 가져오기</button><br>
+    <input type="text" id="name" name="name" placeholder="name">
+    <input type="text" id="age" name="age" placeholder="age">
+    <button id="btnAdd">학생 데이터 추가</button>
+    <div id="contents"></div>
+</body>
+</html>
+
+<script>
+    window.onload = function() {
+        let btnStu = document.getElementById("btnStu");
+        let btnAdd = document.getElementById("btnAdd");
+        btnStu.addEventListener("click", getStudents);
+        btnAdd.addEventListener("click", postData);
+
+    }
+
+    function getStudents() {
+
+    }
+
+    function makeList() {
+
+    }
+
+    function postData() {
+
+    }
+
+    function updateData(id) {
+        
+    }
+</script>
