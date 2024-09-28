@@ -1,139 +1,207 @@
-<!-- 
-    오픈소스 스튜디오 Assignment#4-1 Ajax 구현 
-    json-server --watch data.json --port 3001
--->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Player CRUD</title>
     <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
         #contents {
             background-color: #FAFAD6;
-            width: 40%;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 5px;
+        }
+
+        .list-group {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .list-group-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border: 1px solid #ccc;
+            margin-bottom: 5px;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #007BFF; 
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+        }
+
+        .update-button {
+            background-color: #28a745;
+        }
+
+        .delete-button {
+            background-color: #dc3545;
         }
     </style>
 </head>
 <body>
-    <button id="btnStu">학생 데이터 가져오기</button><br>
-    <input type="text" id="name" placeholder="name">
-    <input type="number" id="age" placeholder="age">
-    <button id="btnAdd">학생 데이터 추가</button><br>
-    <div id="contents"></div>  
-</body>
-</html>
+    <h1>LOL 플레이어 관리 (근데 이제 AJAX를 곁들인)</h1>
+    <button id="btnPlayers">플레이어 데이터 가져오기</button><br>
+    <input type="text" id="nickname" placeholder="Nickname">
+    <input type="text" id="name" placeholder="Name">
+    <input type="text" id="team" placeholder="Team">
+    <input type="text" id="position" placeholder="Position">
+    <input type="text" id="nation" placeholder="Nation">
+    <input type="text" id="champion" placeholder="Champion">
+    <button id="btnAdd">플레이어 데이터 추가</button>
+    <div id="contents"></div>
 
-<script>
-    window.onload = function() {
-        let btnStu = document.getElementById("btnStu");
-        let btnAdd = document.getElementById("btnAdd");
-        btnStu.addEventListener("click", getStudents);
-        btnAdd.addEventListener("click", postData);
-    }
-    
-    // 학생 정보 가져와서 리스트로 출력하기
-    function getStudents() {
-        let contents = document.getElementById("contents");
-        const xhr = new XMLHttpRequest();
-
-        xhr.open("GET", "http://localhost:3001/students");
-        xhr.setRequestHeader("content-type", "application/json");
-        xhr.send();
-
-        xhr.onload = () => {
-            if (xhr.status === 200) {
-                const res = JSON.parse(xhr.response);
-                contents.innerHTML = makeList(res);
-            } else {
-                console.log(xhr.status, xhr.statusText);
-            }
+    <script>
+        window.onload = function() {
+            let btnPlayers = document.getElementById("btnPlayers");
+            let btnAdd = document.getElementById("btnAdd");
+            btnPlayers.addEventListener("click", getPlayers);
+            btnAdd.addEventListener("click", postData);
         }
-    }
 
-    // 학생 리스트 만들기
-    function makeList(data) {
-        let str = "<ul>";
-        for (let key in data) {
-            str += `<li>${data[key].name} (${data[key].age}) 
-                    <button onclick="updateData(${data[key].id})">Update</button> 
-                    <button onclick="deleteData(${data[key].id})">Delete</button></li>`;
-        }
-        str += "</ul>";
-        return str;
-    }
-
-    // 학생 정보 서버로 보내기
-    function postData() {
-        let contents = document.getElementById("contents");
-        let name = document.getElementById("name");
-        let age = document.getElementById("age");
-
-        // 기존 학생 리스트에서 마지막 학생의 ID를 가져와 +1
-        const xhr = new XMLHttpRequest();
-        xhr.open("GET", "http://localhost:3001/students");
-        xhr.send();
-        xhr.onload = () => {
-            if (xhr.status === 200) {
-                const students = JSON.parse(xhr.response);
-                let newId = students.length > 0 ? students[students.length - 1].id + 1 : 1;
-
-                // 새 학생 데이터 추가
-                const newStudent = { id: newId, name: name.value, age: parseInt(age.value) };
-
-                const postXhr = new XMLHttpRequest();
-                postXhr.open("POST", "http://localhost:3001/students");
-                postXhr.setRequestHeader("content-type", "application/json; charset=UTF-8");
-                postXhr.send(JSON.stringify(newStudent));
-
-                postXhr.onload = () => {
-                    if (postXhr.status === 201) {
-                        name.value = "";
-                        age.value = "";
-                        getStudents();
-                    } else {
-                        console.log(postXhr.status, postXhr.statusText);
-                    }
-                }
-            }
-        };
-    }
-
-
-    // 학생 정보 수정하기
-    function updateData(id) {
-        let name = prompt("수정할 이름을 입력하세요:");
-        let age = prompt("수정할 나이를 입력하세요:");
-        if (name && age) {
+        // 플레이어 정보 가져오기
+        function getPlayers() {
+            let contents = document.getElementById("contents");
             const xhr = new XMLHttpRequest();
-            xhr.open("PUT", `http://localhost:3001/students/${id}`);
-            xhr.setRequestHeader("content-type", "application/json; charset=UTF-8");
-            const data = { name: name, age: parseInt(age) };
 
-            xhr.send(JSON.stringify(data));
+            xhr.open("GET", "http://localhost:3001/player");
+            xhr.send();
 
             xhr.onload = () => {
                 if (xhr.status === 200) {
-                    getStudents();
+                    const res = JSON.parse(xhr.response);
+                    contents.innerHTML = makeList(res);
                 } else {
                     console.log(xhr.status, xhr.statusText);
                 }
             }
         }
-    }
 
-    // 학생 정보 삭제하기
-    function deleteData(id) {
-        const xhr = new XMLHttpRequest();
-        xhr.open("DELETE", `http://localhost:3001/students/${id}`);
-        xhr.send();
+        // 플레이어 리스트 만들기
+        function makeList(data) {
+            let str = "<ul class='list-group'>";
+            for (let key in data) {
+                str += `
+                    <li class='list-group-item'>
+                        ${data[key].nickname} (${data[key].name}) - ${data[key].team}
+                        <div>
+                            <button class="update-button" onclick="updateData(${data[key].id})">Update</button>
+                            <button class="delete-button" onclick="deleteData(${data[key].id})">Delete</button>
+                        </div>
+                    </li>`;
+            }
+            str += "</ul>";
+            return str;
+        }
 
-        xhr.onload = () => {
-            if (xhr.status === 200) {
-                getStudents();
-            } else {
-                console.log(xhr.status, xhr.statusText);
+        // 플레이어 데이터 추가하기
+        function postData() {
+            let nickname = document.getElementById("nickname");
+            let name = document.getElementById("name");
+            let team = document.getElementById("team");
+            let position = document.getElementById("position");
+            let nation = document.getElementById("nation");
+            let champion = document.getElementById("champion");
+
+            // 기존 플레이어 리스트에서 마지막 플레이어의 ID를 가져와 +1
+            const xhr = new XMLHttpRequest();
+            xhr.open("GET", "http://localhost:3001/player");
+            xhr.send();
+            xhr.onload = () => {
+                if (xhr.status === 200) {
+                    const players = JSON.parse(xhr.response);
+                    let newId = players.length > 0 ? players[players.length - 1].id + 1 : 1;
+
+                    // 새 플레이어 데이터 추가
+                    const newPlayer = {
+                        id: newId,
+                        nickname: nickname.value,
+                        name: name.value,
+                        team: team.value,
+                        position: position.value,
+                        nation: nation.value,
+                        champion: champion.value
+                    };
+
+                    const postXhr = new XMLHttpRequest();
+                    postXhr.open("POST", "http://localhost:3001/player");
+                    postXhr.setRequestHeader("content-type", "application/json; charset=UTF-8");
+                    postXhr.send(JSON.stringify(newPlayer));
+
+                    postXhr.onload = () => {
+                        if (postXhr.status === 201) {
+                            nickname.value = "";
+                            name.value = "";
+                            team.value = "";
+                            position.value = "";
+                            nation.value = "";
+                            champion.value = "";
+                            getPlayers();
+                        } else {
+                            console.log(postXhr.status, postXhr.statusText);
+                        }
+                    }
+                }
+            };
+        }
+
+        // 플레이어 정보 수정하기
+        function updateData(id) {
+            let nickname = prompt("새 Nickname을 입력하세요:");
+            let name = prompt("새 Name을 입력하세요:");
+            let team = prompt("새 Team을 입력하세요:");
+            let position = prompt("새 Position을 입력하세요:");
+            let nation = prompt("새 Nation을 입력하세요:");
+            let champion = prompt("새 Champion을 입력하세요:");
+
+            if (nickname && name && team && position && nation && champion) {
+                const xhr = new XMLHttpRequest();
+                xhr.open("PUT", `http://localhost:3001/player/${id}`);
+                xhr.setRequestHeader("content-type", "application/json; charset=UTF-8");
+                const data = {
+                    nickname: nickname,
+                    name: name,
+                    team: team,
+                    position: position,
+                    nation: nation,
+                    champion: champion
+                };
+
+                xhr.send(JSON.stringify(data));
+
+                xhr.onload = () => {
+                    if (xhr.status === 200) {
+                        getPlayers();
+                    } else {
+                        console.log(xhr.status, xhr.statusText);
+                    }
+                }
             }
         }
-    }
-</script>
+
+        // 플레이어 정보 삭제하기
+        function deleteData(id) {
+            const xhr = new XMLHttpRequest();
+            xhr.open("DELETE", `http://localhost:3001/player/${id}`);
+            xhr.send();
+
+            xhr.onload = () => {
+                if (xhr.status === 200) {
+                    getPlayers();
+                } else {
+                    console.log(xhr.status, xhr.statusText);
+                }
+            }
+        }
+    </script>
+</body>
+</html>
