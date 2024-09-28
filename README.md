@@ -15,5 +15,6 @@
     [Assignment#4-1 Ajax 구현]<br>
     json file을 이용한 json-server 구동<br>
     ajax를 이용한 CRUD 서비스 구현<br>
-    학생 정보 불러오기, 추가, 수정, 삭제 기능 구현<br>
+    학생 정보 불러오기, 추가, 수정, 삭제 기능 구현<br><br>
+    서버 실행 커맨드: json-server --watch data.json --port 3001<br>
 </h3>
