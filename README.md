@@ -13,6 +13,7 @@
 <hr>
 <h3>
     [Assignment#4-1 Ajax 구현]<br>
+    data.json, js_ajax.html 파일 추가<br>
     json file을 이용한 json-server 구동<br>
     ajax를 이용한 CRUD 서비스 구현<br>
     플레이어 정보 불러오기, 추가, 수정, 삭제 기능 구현 (CRUD) <br><br>
