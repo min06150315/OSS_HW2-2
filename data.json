@@ -1,60 +1,60 @@
 {
   "player": [
     {
-      "id": "1",
       "nickname": "Faker",
       "name": "이상혁",
       "team": "T1",
       "position": "MID",
       "nation": "KOREA",
-      "champion": "르블랑"
+      "champion": "아지르",
+      "id": "1"
     },
     {
-      "id": "2",
       "nickname": "Gumayusi",
       "name": "이민형",
       "team": "T1",
       "position": "BOT",
       "nation": "KOREA",
-      "champion": "케이틀린"
+      "champion": "케이틀린",
+      "id": "2"
     },
     {
-      "id": "3",
       "nickname": "Keria",
       "name": "류민석",
       "team": "T1",
       "position": "SUP",
       "nation": "KOREA",
-      "champion": "럭스"
+      "champion": "럭스",
+      "id": "3"
     },
     {
-      "id": "4",
       "nickname": "Oner",
       "name": "문현준",
       "team": "T1",
       "position": "JUG",
       "nation": "KOREA",
-      "champion": "리 신"
+      "champion": "리 신",
+      "id": "4"
     },
     {
-      "id": "5",
       "nickname": "Zeus",
       "name": "최우제",
       "team": "T1",
       "position": "TOP",
       "nation": "KOREA",
-      "champion": "제이스"
+      "champion": "제이스",
+      "id": "5"
     }
   ],
   "students": [
     {
       "id": "1",
-      "name": "Jerry",
+      "name": "Jeon",
       "age": 20
     },
     {
       "id": "2",
-      "name": "Tom",
+      "name": "Cha",
       "age": 18
     },
     {
