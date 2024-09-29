@@ -92,7 +92,7 @@
             for (let key in data) {
                 str += `
                     <li class='list-group-item'>
-                        ${data[key].nickname} (${data[key].name}) - ${data[key].team}
+                        ${data[key].nickname} (${data[key].name}) - ${data[key].team} (${data[key].position}) [${data[key].nation}] - ${data[key].champion}
                         <div>
                             <button class="update-button" onclick="updateData(${data[key].id})">Update</button>
                             <button class="delete-button" onclick="deleteData(${data[key].id})">Delete</button>
