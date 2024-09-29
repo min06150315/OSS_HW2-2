@@ -17,5 +17,6 @@
     json file을 이용한 json-server 구동<br>
     ajax를 이용한 CRUD 서비스 구현<br>
     플레이어 정보 불러오기, 추가, 수정, 삭제 기능 구현 (CRUD) <br><br>
-    서버 실행 커맨드: json-server --watch data.json --port 3001<br>
+    서버 실행 커맨드: json-server --watch data.json --port 3001<br><br>
+    <img src="./screenshots/preview.png">
 </h3>
