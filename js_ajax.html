@@ -16,6 +16,10 @@
             border-radius: 5px;
         }
 
+        #main {
+            margin: 20px;
+        }
+
         .list-group {
             list-style-type: none;
             padding: 0;
@@ -49,17 +53,18 @@
     </style>
 </head>
 <body>
-    <h1>LOL 플레이어 관리 (근데 이제 AJAX를 곁들인)</h1>
-    <button id="btnPlayers">플레이어 데이터 가져오기</button><br>
-    <input type="text" id="nickname" placeholder="Nickname">
-    <input type="text" id="name" placeholder="Name">
-    <input type="text" id="team" placeholder="Team">
-    <input type="text" id="position" placeholder="Position">
-    <input type="text" id="nation" placeholder="Nation">
-    <input type="text" id="champion" placeholder="Champion">
-    <button id="btnAdd">플레이어 데이터 추가</button>
-    <div id="contents"></div>
-
+    <div id="main">
+        <h1>LOL 플레이어 관리 (근데 이제 AJAX를 곁들인)</h1>
+        <button id="btnPlayers">플레이어 데이터 가져오기</button><br>
+        <input type="text" id="nickname" placeholder="Nickname">
+        <input type="text" id="name" placeholder="Name">
+        <input type="text" id="team" placeholder="Team">
+        <input type="text" id="position" placeholder="Position">
+        <input type="text" id="nation" placeholder="Nation">
+        <input type="text" id="champion" placeholder="Champion">
+        <button id="btnAdd">플레이어 데이터 추가</button>
+        <div id="contents"></div>
+    </div>
     <script>
         window.onload = function() {
             let btnPlayers = document.getElementById("btnPlayers");
